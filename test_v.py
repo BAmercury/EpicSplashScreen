@@ -3,6 +3,7 @@ from time import sleep
 from Tkinter import *
 import threading
 import random
+import ttk
 
 # from www.sunjay-varma.com
 class SplashScreen(Frame):
@@ -31,11 +32,38 @@ label.pack(side=TOP, expand=YES)
 label.config(bg="#3366ff", justify=CENTER, font=("calibri", 29))
 Button(sp, text="Press this button to kill the program", bg='red', command=root.destroy).pack(side=BOTTOM, fill=X)
 
-foo = []
+
+
+
+strings = []
+
+
+# Thanks to https://github.com/livibetter for the ttk progress bar example
+ft = ttk.Frame()
+fb = ttk.Frame()
+ft.pack(expand=True, fill=BOTH,side=TOP)
+fb.pack(expand=True,fill=BOTH,side=TOP)
+pb_hd = ttk.Progressbar(ft, orient='horizontal', mode='determinate')
+pb_hD = ttk.Progressbar(ft, orient='horizontal', mode='indeterminate')
+pb_vd = ttk.Progressbar(fb, orient='vertical', mode='determinate')
+pb_vD = ttk.Progressbar(fb, orient='vertical', mode='indeterminate')
+
+pb_hd.pack(expand=True, fill=BOTH, side=TOP)
+pb_hD.pack(expand=True, fill=BOTH, side=TOP)
+pb_vd.pack(expand=True, fill=BOTH, side=LEFT)
+pb_vD.pack(expand=True, fill=BOTH, side=LEFT)
+
+pb_hd.start(50)
+pb_hD.start(50)
+pb_vd.start(50)
+pb_vD.start(50)
+
 
 def strings_from_file():
-    global foo
-    foo = ['a', 'b', 'c', 'd', 'e']
+    global strings
+    #foo = ['a', 'b', 'c', 'd', 'e']
+    with open('Phrases.txt','r') as myfile:
+        strings = myfile.read().splitlines()
 
 
 def update_test():
@@ -44,7 +72,7 @@ def update_test():
     while True:
         #print('here')
         sleep(0.5)
-        string = random.choice(foo)
+        string = random.choice(strings)
         label.config(text=string)
         label.pack(side=TOP, expand=YES)
         label.config(bg="#3366ff", justify=CENTER, font=("calibri", 29))
